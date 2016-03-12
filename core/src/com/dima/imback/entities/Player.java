@@ -14,7 +14,7 @@ public class Player extends Entity {
 	protected int failingY = -250;
 
 	private Vector2 spawnPoint;
-	
+
 	public Player(float x, float y, Texture texture) {
 		super(x, y, texture);
 		velocity = new Vector2(0, 0);
@@ -46,7 +46,7 @@ public class Player extends Entity {
 					if (velocity.y > 0) {
 						isJumping = true;
 						velocity.y = -1.4f;
-					} else{
+					} else {
 						position.y = tmpy + rect.height;
 						isJumping = false;
 					}
@@ -61,7 +61,7 @@ public class Player extends Entity {
 
 		this.position.add(velocity.x, velocity.y);
 		fallIfPossible();
-		if(position.y <= failingY){
+		if (position.y <= failingY) {
 			position.set(spawnPoint);
 			lost = false;
 		}
@@ -87,9 +87,19 @@ public class Player extends Entity {
 			velocity.y = 10;
 		}
 	}
-	
-	public void dies(){
+
+	public void dies() {
+		if (!lost) {
+			isJumping = false;
+			velocity.x = 0;
+			velocity.y = 0;
+			jump();
+		}
 		lost = true;
+	}
+
+	public boolean getStatus() {
+		return lost;
 	}
 
 }

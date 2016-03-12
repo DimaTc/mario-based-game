@@ -21,7 +21,7 @@ public class Foe extends Player {
 	private static final int SIZE_OF_FRAME = 32;
 	private static final int ROWS = 1;
 	private static final int COLS = 4;
-	private static final float ANIMATION_SPEED = 1 / 6f;
+	private static final float ANIMATION_SPEED = 1 / 7f;
 	public Foe(float x, float y, float width, float height, Texture sheet) {
 		super(x, y, width, height, sheet);
 		TextureRegion[][] tmp = TextureRegion.split(sheet, SIZE_OF_FRAME,

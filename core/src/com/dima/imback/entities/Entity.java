@@ -40,7 +40,7 @@ public abstract class Entity {
 
 	public void draw(SpriteBatch sb) {
 		if (flip)
-			sb.draw(texture, position.x + width / 2, position.y, -width, height);
+			sb.draw(texture, position.x + width, position.y, -width, height);
 		else
 			sb.draw(texture, position.x, position.y, width, height);
 

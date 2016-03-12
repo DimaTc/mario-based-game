@@ -108,12 +108,12 @@ public class PlayState extends State {
 	public void update(float dt) {
 
 
-		if (Gdx.input.isKeyPressed(Input.Keys.SPACE))
+		if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && !player.getStatus())
 			player.jump();
-		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+		if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && !player.getStatus()) {
 			player.velocity.x = -10;
 			player.setFlip(true);
-		} else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+		} else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && !player.getStatus()) {
 			player.velocity.x = 10;
 			player.setFlip(false);
 		} else
@@ -126,7 +126,7 @@ public class PlayState extends State {
 				player.collidesWith(wall, true);
 
 			}
-			if(foe.collidesWith(player, true))
+			if(!player.getStatus() && foe.collidesWith(player, true))
 				player.dies();
 			foe.update(dt);
 			
