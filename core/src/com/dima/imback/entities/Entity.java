@@ -40,16 +40,16 @@ public abstract class Entity {
 
 	public void draw(SpriteBatch sb) {
 		if (flip)
-			sb.draw(texture, position.x + width /2 , position.y, -width, height);
+			sb.draw(texture, position.x + width / 2, position.y, -width, height);
 		else
-			sb.draw(texture, position.x , position.y, width, height);
+			sb.draw(texture, position.x, position.y, width, height);
 
 	}
 
-	public void setFlip(boolean flip){
+	public void setFlip(boolean flip) {
 		this.flip = flip;
 	}
-	
+
 	public void setPosition(Vector2 position) {
 		this.position = position;
 	}
@@ -73,6 +73,14 @@ public abstract class Entity {
 
 	public float getHeight() {
 		return height;
+	}
+
+	public Texture getTexture() {
+		return texture;
+	}
+
+	public void setTexture(Texture texture) {
+		this.texture = texture;
 	}
 
 }

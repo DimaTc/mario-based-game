@@ -31,7 +31,7 @@ public class GSM {
 		accum += dt;
 		while(accum >= TIME_STEMP){
 			accum -= TIME_STEMP;
-			states.get(currentState).update(dt);
+			states.get(currentState).update(accum);
 		}
 	}
 

@@ -7,21 +7,24 @@ import com.badlogic.gdx.math.Vector2;
 public class Player extends Entity {
 
 	public Vector2 velocity;
-	private Vector2 gravity = new Vector2(0, -0.8f);
-	private boolean isJumping = false;
+	protected Vector2 gravity = new Vector2(0, -0.9f);
+	protected boolean isJumping = false;
+	private boolean lost = false;
 
-	// tmp
-	private int floor = 50;
+	protected int failingY = -250;
 
-	//
+	private Vector2 spawnPoint;
+	
 	public Player(float x, float y, Texture texture) {
 		super(x, y, texture);
 		velocity = new Vector2(0, 0);
+		spawnPoint = new Vector2(position);
 	}
 
-	public Player(float x, float y, int width, int height, Texture texture) {
+	public Player(float x, float y, float width, float height, Texture texture) {
 		super(x, y, width, height, texture);
 		velocity = new Vector2(0, 0);
+		spawnPoint = new Vector2(position);
 	}
 
 	public boolean collidesWith(Entity entity, boolean interact) {
@@ -32,7 +35,7 @@ public class Player extends Entity {
 		rect.x -= velocity.x;
 		rect.y -= velocity.y;
 		collides = rect.overlaps(getRectangle());
-		if (collides) {
+		if (collides && !lost) {
 			if (velocity.x > 0 || velocity.x < 0)
 				if (getRectangle().y < tmpy + rect.height
 						&& getRectangle().y + getHeight() > tmpy)
@@ -40,11 +43,10 @@ public class Player extends Entity {
 			if (velocity.y < 0 || velocity.y > 0)
 				if (getRectangle().x < tmpx + rect.width
 						&& getRectangle().x + getWidth() > tmpx) {
-					if(velocity.y > 0){
+					if (velocity.y > 0) {
 						isJumping = true;
 						velocity.y = -1.4f;
-					}
-					else
+					} else
 						isJumping = false;
 					velocity.y = 0;
 				}
@@ -57,15 +59,20 @@ public class Player extends Entity {
 
 		this.position.add(velocity.x, velocity.y);
 		fallIfPossible();
+		if(position.y <= failingY){
+			position.set(spawnPoint);
+			lost = false;
+		}
 
 	}
 
-	private void fallIfPossible() {
+	protected void fallIfPossible() {
 		boolean falling = false;
-		if (position.y + velocity.y <= floor) {
+		if (position.y + velocity.y <= failingY) {
 			velocity.y = 0;
-			position.y = floor;
+			position.y = failingY;
 			isJumping = false;
+			lost = true;
 		} else
 			falling = true;
 		if (isJumping || falling)
@@ -77,6 +84,10 @@ public class Player extends Entity {
 			isJumping = true;
 			velocity.y = 10;
 		}
+	}
+	
+	public void dies(){
+		lost = true;
 	}
 
 }

@@ -24,6 +24,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		
 		gsm.draw(sb);
 		gsm.update(Gdx.graphics.getDeltaTime());
+		System.out.println(Gdx.graphics.getFramesPerSecond());
 		
 		//
 		sb.end();
