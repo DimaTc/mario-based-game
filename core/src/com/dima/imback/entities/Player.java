@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 public class Player extends Entity {
 
 	public Vector2 velocity;
-	protected Vector2 gravity = new Vector2(0, -0.9f);
+	protected Vector2 gravity = new Vector2(0, -0.8f);
 	protected boolean isJumping = false;
 	private boolean lost = false;
 
@@ -46,8 +46,10 @@ public class Player extends Entity {
 					if (velocity.y > 0) {
 						isJumping = true;
 						velocity.y = -1.4f;
-					} else
+					} else{
+						position.y = tmpy + rect.height;
 						isJumping = false;
+					}
 					velocity.y = 0;
 				}
 

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.dima.imback.entities.Entity;
 import com.dima.imback.entities.Foe;
 import com.dima.imback.entities.GameObject;
 import com.dima.imback.entities.Player;
@@ -16,13 +17,14 @@ import com.dima.imback.utilities.MapGenerator;
 public class PlayState extends State {
 
 	Player player;
-
+	Entity winPole;
 	LinkedList<GameObject> walls;
 	LinkedList<GameObject> fakeWalls;
 	LinkedList<Foe> foes;
 
 	Texture playerTexture;
 	Texture wallTexture;
+	Texture winPoleTexture;
 	Texture backgroundTexture;
 	Texture foeSheet;
 	OrthographicCamera cam;
@@ -42,6 +44,7 @@ public class PlayState extends State {
 			wallTexture = new Texture(Gdx.files.internal("block.png"));
 			backgroundTexture = new Texture(Gdx.files.internal("bg.png"));
 			foeSheet = new Texture(Gdx.files.internal("foe.png"));
+			winPoleTexture= new Texture(Gdx.files.internal("win.png"));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -75,6 +78,10 @@ public class PlayState extends State {
 		Vector2 playerPoint = mg.getObjectPoints(0x00ff00).get(0); // green
 		player = new Player(playerPoint.x * 32, playerPoint.y * 33,
 				playerTexture);
+		
+		Vector2 winPoint = mg.getObjectPoints(0x0000ff).get(0); // green
+		winPole = new Player(winPoint.x * 32, winPoint.y * 32,
+				winPoleTexture);
 
 	}
 
@@ -95,6 +102,7 @@ public class PlayState extends State {
 		for (GameObject wall : fakeWalls) {
 			wall.draw(sb);
 		}
+		winPole.draw(sb);
 	}
 
 	public void update(float dt) {
