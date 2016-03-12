@@ -10,8 +10,9 @@ public class GSM {
 
 	public static final byte PLAY = 1;
 	private int currentState = 0;
-	private float TIME_STEMP = 1 / 30f; //30 updated pre second
+	public static final float TIME_STEMP = 1 / 45f; //45 updates per second
 	private float accum = 0;
+	
 	
 	public GSM() {
 		states = new LinkedList<State>();
