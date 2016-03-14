@@ -1,5 +1,6 @@
 package com.dima.imback.gsm;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import com.badlogic.gdx.Gdx;
@@ -106,8 +107,14 @@ public class PlayState extends State {
 
 	public void update(float dt) {
 
+		// ///////////////////////////////////////
+		// /////////////Input Handler/////////////
+		// ///////////////////////////////////////
 		if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && !player.getStatus())
 			player.jump();
+		if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)
+				|| Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT))
+			player.fire();
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && !player.getStatus()) {
 			player.velocity.x = -5;
 			player.setFlip(true);
@@ -118,7 +125,9 @@ public class PlayState extends State {
 		} else
 			player.velocity.x = 0;
 
-		for (Foe foe : foes) {
+		Iterator<Foe> iter = foes.iterator();
+		while (iter.hasNext()) {
+			Foe foe = iter.next();
 			for (GameObject wall : walls) {
 				foe.collidesWith(wall, true);
 				player.collidesWith(wall, true);
@@ -126,16 +135,14 @@ public class PlayState extends State {
 			}
 			if (!player.getStatus() && player.aboveFoe(foe))
 				foe.dies();
-			else 		
-			if (!player.getStatus() && foe.collidesWith(player, true))
+			else if (!player.getStatus() && foe.collidesWith(player, true))
 				player.dies();
 			foe.update(dt);
-			
-			if(foe.isOutOfMap())
-				foes.remove(foe.getClass());
+
+			if (foe.isOutOfMap())
+				iter.remove();
 
 		}
-
 		player.update(dt);
 		cam.position.set(player.position.x, 150 + player.position.y / 2, 0);
 	}

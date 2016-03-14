@@ -50,6 +50,10 @@ public abstract class Entity {
 		this.flip = flip;
 	}
 
+	public boolean isFlip() {
+		return flip;
+	}
+
 	public void setPosition(Vector2 position) {
 		this.position = position;
 	}

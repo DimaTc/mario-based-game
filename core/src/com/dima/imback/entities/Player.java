@@ -14,7 +14,7 @@ public class Player extends Entity {
 	protected int failingY = -200;
 
 	private Vector2 spawnPoint;
-	private int deadLevel = -250;
+	private int deadLevel = -2;
 
 	public Player(float x, float y, Texture texture) {
 		super(x, y, texture);
@@ -42,7 +42,7 @@ public class Player extends Entity {
 					isJumping = false;
 					jump();
 					hit = true;
-				} 
+				}
 		}
 		return hit;
 
@@ -122,9 +122,17 @@ public class Player extends Entity {
 	public boolean getStatus() {
 		return lost;
 	}
-	
-	public boolean isOutOfMap(){
+
+	public boolean isOutOfMap() {
 		return position.y < deadLevel;
+	}
+
+	public void fire() {
+		if (isFlip()) {
+
+		} else
+			return;
+
 	}
 
 }
