@@ -17,11 +17,13 @@ public class Foe extends Player {
 	private float accum = 0;
 	protected Vector2 velocity;
 	private boolean isFlip = false;
+	private boolean isDead = false;
 
 	private static final int SIZE_OF_FRAME = 32;
 	private static final int ROWS = 1;
 	private static final int COLS = 4;
 	private static final float ANIMATION_SPEED = 1 / 7f;
+	
 	public Foe(float x, float y, float width, float height, Texture sheet) {
 		super(x, y, width, height, sheet);
 		TextureRegion[][] tmp = TextureRegion.split(sheet, SIZE_OF_FRAME,
@@ -67,7 +69,7 @@ public class Foe extends Player {
 		rect.x -= velocity.x;
 		rect.y -= velocity.y;
 		collides = rect.overlaps(getRectangle());
-		if (collides) {
+		if (collides && !isDead) {
 			if (velocity.x > 0 || velocity.x < 0)
 				if (getRectangle().y < tmpy + rect.height
 						&& getRectangle().y + getHeight() > tmpy)
@@ -112,6 +114,15 @@ public class Foe extends Player {
 	
 	public void flip(boolean isFlip){
 		this.isFlip = isFlip;
+	}
+	
+	@Override
+	public void dies(){
+		if(!isDead){
+			velocity.x = 0;
+			velocity.y = 0;
+			isDead = true;
+		}
 	}
 
 }

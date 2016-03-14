@@ -11,9 +11,10 @@ public class Player extends Entity {
 	protected boolean isJumping = false;
 	private boolean lost = false;
 
-	protected int failingY = -250;
+	protected int failingY = -200;
 
 	private Vector2 spawnPoint;
+	private int deadLevel = -250;
 
 	public Player(float x, float y, Texture texture) {
 		super(x, y, texture);
@@ -25,6 +26,26 @@ public class Player extends Entity {
 		super(x, y, width, height, texture);
 		velocity = new Vector2(0, 0);
 		spawnPoint = new Vector2(position);
+	}
+
+	public boolean aboveFoe(Entity entity) {
+
+		Rectangle rect = entity.getRectangle();
+		float tmpx = rect.x;
+		rect.x -= velocity.x;
+		rect.y -= velocity.y;
+		boolean hit = false;
+		if (rect.overlaps(getRectangle()) && !lost) {
+			if (velocity.y < 0)
+				if (getRectangle().x < tmpx + rect.width
+						&& getRectangle().x + getWidth() > tmpx) {
+					isJumping = false;
+					jump();
+					hit = true;
+				} 
+		}
+		return hit;
+
 	}
 
 	public boolean collidesWith(Entity entity, boolean interact) {
@@ -100,6 +121,10 @@ public class Player extends Entity {
 
 	public boolean getStatus() {
 		return lost;
+	}
+	
+	public boolean isOutOfMap(){
+		return position.y < deadLevel;
 	}
 
 }

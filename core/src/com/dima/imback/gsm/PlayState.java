@@ -44,7 +44,7 @@ public class PlayState extends State {
 			wallTexture = new Texture(Gdx.files.internal("block.png"));
 			backgroundTexture = new Texture(Gdx.files.internal("bg.png"));
 			foeSheet = new Texture(Gdx.files.internal("foe.png"));
-			winPoleTexture= new Texture(Gdx.files.internal("win.png"));
+			winPoleTexture = new Texture(Gdx.files.internal("win.png"));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -71,17 +71,16 @@ public class PlayState extends State {
 		}
 		points = mg.getObjectPoints(0xffff00);
 		for (int i = 0; i < points.size(); i++) {
-			foes.add(new Foe(points.get(i).x * 32,
-					points.get(i).y * 32, 32, 32, foeSheet));
+			foes.add(new Foe(points.get(i).x * 32, points.get(i).y * 32, 32,
+					32, foeSheet));
 		}
-		
+
 		Vector2 playerPoint = mg.getObjectPoints(0x00ff00).get(0); // green
 		player = new Player(playerPoint.x * 32, playerPoint.y * 33,
 				playerTexture);
-		
+
 		Vector2 winPoint = mg.getObjectPoints(0x0000ff).get(0); // green
-		winPole = new Player(winPoint.x * 32, winPoint.y * 32,
-				winPoleTexture);
+		winPole = new Player(winPoint.x * 32, winPoint.y * 32, winPoleTexture);
 
 	}
 
@@ -93,7 +92,7 @@ public class PlayState extends State {
 				walls.size() * 8, backgroundTexture.getHeight());
 
 		player.draw(sb);
-		for(Foe foe: foes){
+		for (Foe foe : foes) {
 			foe.draw(sb);
 		}
 		for (GameObject wall : walls) {
@@ -107,29 +106,34 @@ public class PlayState extends State {
 
 	public void update(float dt) {
 
-
 		if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && !player.getStatus())
 			player.jump();
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && !player.getStatus()) {
-			player.velocity.x = -10;
+			player.velocity.x = -5;
 			player.setFlip(true);
-		} else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && !player.getStatus()) {
-			player.velocity.x = 10;
+		} else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)
+				&& !player.getStatus()) {
+			player.velocity.x = 5;
 			player.setFlip(false);
 		} else
 			player.velocity.x = 0;
 
-
-		for(Foe foe : foes){
+		for (Foe foe : foes) {
 			for (GameObject wall : walls) {
-				foe.collidesWith(wall,true);
+				foe.collidesWith(wall, true);
 				player.collidesWith(wall, true);
 
 			}
-			if(!player.getStatus() && foe.collidesWith(player, true))
+			if (!player.getStatus() && player.aboveFoe(foe))
+				foe.dies();
+			else 		
+			if (!player.getStatus() && foe.collidesWith(player, true))
 				player.dies();
 			foe.update(dt);
 			
+			if(foe.isOutOfMap())
+				foes.remove(foe.getClass());
+
 		}
 
 		player.update(dt);
