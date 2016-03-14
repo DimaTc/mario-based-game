@@ -124,6 +124,9 @@ public class PlayState extends State {
 			player.setFlip(false);
 		} else
 			player.velocity.x = 0;
+		///////////////////////////////////////////
+		///////////////////////////////////////////
+		///////////////////////////////////////////
 
 		Iterator<Foe> iter = foes.iterator();
 		while (iter.hasNext()) {
@@ -140,7 +143,10 @@ public class PlayState extends State {
 			foe.update(dt);
 
 			if (foe.isOutOfMap())
-				iter.remove();
+				if(iter.hasNext())
+					iter.remove();
+				else
+					foe.setPosition(-1000, -1000);
 
 		}
 		player.update(dt);
